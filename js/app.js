@@ -9,7 +9,7 @@ let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 const getProductos = async () => {
     const response = await fetch("data.json");
     const data = await response.json();
-    
+
     // recorriendo la variable data para traer los objetos desde el archivo json
     data.forEach((product) => {
         const contentProduct = document.createElement('div');
@@ -45,6 +45,16 @@ const getProductos = async () => {
         // agregando evento al boton
         comprar.addEventListener('click', () => {
 
+            // Mensaje que el produccto se agrego correctamente al carrito
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Producto agregado al carrito',
+                showConfirmButton: false,
+                timer: 1000
+            });
+
+            // agregando el produccto al carrito
             const repeat = carrito.some((repeatProduct) => repeatProduct.id === product.id);
             if (repeat) {
                 carrito.map((prod) => {
@@ -61,7 +71,7 @@ const getProductos = async () => {
                     precio: product.precio,
                     cantidad: product.cantidad
                 });
-                console.log(carrito);
+
                 carritoCounter();
                 seveLocal();
             };
